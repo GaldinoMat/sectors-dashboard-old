@@ -1,34 +1,6 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import DeleteRole from "../../assets/DeleteRole.svg"
-
-type SectorsForm = {
-  setSectors: (sectors: Sector[]) => void
-  sectors: Sector[]
-}
-
-type Sector = {
-  Sector: string;
-  roles: string[];
-}
-
-type RoleForm = {
-  setRoles: (roles: string[]) => void
-  roles: string[]
-}
-
-type SubmissionButton = {
-  handleRoleSubmission: () => void
-}
-
-type Roles = {
-  roles: string[]
-  handleRoleDeletion: (role: string) => void
-}
-
-type Role = {
-  role: string
-  handleRoleDeletion: (role: string) => void
-}
+import type { SectorsForm, Roles, SubmissionButton, RoleType, RoleFormType } from '../../typings/types'
 
 function SectorForm({ setSectors, sectors }: SectorsForm) {
   const [sectorName, setSectorName] = useState<string>("")
@@ -68,7 +40,7 @@ function SectorForm({ setSectors, sectors }: SectorsForm) {
   )
 }
 
-function RoleForm({ setRoles, roles }: RoleForm) {
+function RoleForm({ setRoles, roles }: RoleFormType) {
   const [role, setRole] = useState("")
 
   const handleRoleSubmission = () => {
@@ -99,7 +71,7 @@ function RolesRow({ roles, handleRoleDeletion }: Roles) {
   )
 }
 
-function Role({ role, handleRoleDeletion }: Role) {
+function Role({ role, handleRoleDeletion }: RoleType) {
   return (
     <span className='flex px-3 py-[7px] justify-center items-center gap-3 bg-white max-w-[121px]'>
       <p className='text-xs'>{role}</p>
