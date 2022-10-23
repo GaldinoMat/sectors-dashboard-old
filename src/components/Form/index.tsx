@@ -1,18 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import DeleteRole from "../../assets/DeleteRole.svg"
+
+type SectorsForm = {
+  setSectors: (sectors: Sector[]) => void
+  sectors: Sector[]
+}
 
 type Sector = {
   Sector: string;
   roles: string[];
 }
 
-type SectorForm = {
-  setRoles: (roles: string[]) => void
-  roles: string[]
-}
-
-type HandleRoleSubmission = {
-  roleValue: string | undefined;
+type RoleForm = {
   setRoles: (roles: string[]) => void
   roles: string[]
 }
@@ -31,8 +30,8 @@ type Role = {
   handleRoleDeletion: (role: string) => void
 }
 
-function RoleForm() {
-  const [sector, setSector] = useState<Sector>()
+function SectorForm({ setSectors, sectors }: SectorsForm) {
+  const [sectorName, setSectorName] = useState<string>("")
   const [roles, setRoles] = useState<string[]>([])
 
   const handleRoleDeletion = (role: string) => {
@@ -41,18 +40,27 @@ function RoleForm() {
     setRoles([...newRoles])
   }
 
-  useEffect(() => {
-    console.log(roles);
-  }, [roles])
-  
+  const handleSectorSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setSectors([...sectors, {
+      roles,
+      Sector: sectorName
+    }])
+    setSectorName("")
+    setRoles([])
+  }
 
   return (
-    <form className='bg-gray-300 p-6 flex flex-col gap-[14px] xl:min-w-[842px] xl:pr-[49px] h-screen xl:h-full'>
+    <form onSubmit={handleSectorSubmit} className='bg-gray-300 p-6 flex flex-col gap-[14px] xl:min-w-[842px] xl:pr-[49px] h-screen xl:h-full'>
       <section>
         <h2 className='text-2xl uppercase'>Adicionar setor</h2>
       </section>
       <section className='flex flex-col gap-5'>
-        <SectorForm roles={roles} setRoles={setRoles} />
+        <div className='flex flex-col gap-3 w-full'>
+          <label htmlFor="sector" className='text-sm'>Nome:</label>
+          <input type="text" name="sector" id="sector" className='bg-gray-400 text-white h-12 outline-gray-900' required value={sectorName} onChange={(e) => setSectorName(e.target.value)} />
+        </div>
+        <RoleForm roles={roles} setRoles={setRoles} />
         <RolesRow roles={roles} handleRoleDeletion={handleRoleDeletion} />
       </section>
       <SaveFormButton />
@@ -60,27 +68,20 @@ function RoleForm() {
   )
 }
 
-function SectorForm({ setRoles, roles }: SectorForm) {
+function RoleForm({ setRoles, roles }: RoleForm) {
   const [role, setRole] = useState("")
-
-  const roleInput = useRef<HTMLInputElement>(null)
 
   const handleRoleSubmission = () => {
     setRoles([...roles, role])
-
-    if (roleInput.current) roleInput.current.value = ""
+    setRole("")
   }
 
   return (
     <div className='flex flex-col items-end gap-4'>
-      <div className='flex flex-col gap-3 w-full'>
-        <label htmlFor="sector" className='text-sm'>Nome:</label>
-        <input type="text" name="sector" id="sector" className='bg-gray-400 text-white h-12 outline-gray-900' />
-      </div>
       <div className='flex gap-3 w-full items-end'>
         <div className='flex flex-col gap-3 w-full'>
           <label htmlFor="role" className='text-sm'>Cargo(s):</label>
-          <input type="text" name="role" id="role" className='bg-gray-400 text-white h-12 outline-gray-900' ref={roleInput} onChange={(e) => setRole(e.target.value)} />
+          <input type="text" name="role" id="role" className='bg-gray-400 text-white h-12 outline-gray-900' value={role} onChange={(e) => setRole(e.target.value)} />
         </div>
         <SubmitButton handleRoleSubmission={handleRoleSubmission} />
       </div>
@@ -121,4 +122,4 @@ function SaveFormButton() {
   )
 }
 
-export default RoleForm
+export default SectorForm
