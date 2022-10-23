@@ -1,25 +1,37 @@
-import React, { FormEvent, useState } from 'react'
-import DeleteRole from "../../assets/DeleteRole.svg"
-import type { SectorsForm, Roles, SubmissionButton, RoleType, RoleFormType } from '../../typings/types'
+import { FormEvent, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { IStateType } from '../../store'
+import { clearRoles } from '../../store/modules/roles/actions'
+import { createSector } from '../../store/modules/sectors/actions'
+import type { RolesObj } from '../../typings/types'
+import RoleForm from './components/RoleForm/RoleForm'
+import RolesRow from './components/RolesRow/RolesRow'
 
-function SectorForm({ setSectors, sectors }: SectorsForm) {
+
+function SectorForm() {
   const [sectorName, setSectorName] = useState<string>("")
-  const [roles, setRoles] = useState<string[]>([])
+  const dispatch = useDispatch()
+  const { roles } = useSelector<IStateType, RolesObj>((state) => state).roles
 
-  const handleRoleDeletion = (role: string) => {
-    const newRoles = roles
-    newRoles.splice(newRoles.indexOf(role), 1)
-    setRoles([...newRoles])
-  }
-
-  const handleSectorSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSectorSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSectors([...sectors, {
-      roles,
-      Sector: sectorName
-    }])
+    dispatch(createSector({
+      sector: sectorName,
+      roles
+    }))
+    dispatch(clearRoles())
+
+    // try {
+    //   await api.post("/sectors", {
+    //     sector,
+    //     roles
+    //   })
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
     setSectorName("")
-    setRoles([])
   }
 
   return (
@@ -32,59 +44,11 @@ function SectorForm({ setSectors, sectors }: SectorsForm) {
           <label htmlFor="sector" className='text-sm'>Nome:</label>
           <input type="text" name="sector" id="sector" className='bg-gray-400 text-white h-12 outline-gray-900' required value={sectorName} onChange={(e) => setSectorName(e.target.value)} />
         </div>
-        <RoleForm roles={roles} setRoles={setRoles} />
-        <RolesRow roles={roles} handleRoleDeletion={handleRoleDeletion} />
+        <RoleForm />
+        <RolesRow />
       </section>
       <SaveFormButton />
     </form>
-  )
-}
-
-function RoleForm({ setRoles, roles }: RoleFormType) {
-  const [role, setRole] = useState("")
-
-  const handleRoleSubmission = () => {
-    setRoles([...roles, role])
-    setRole("")
-  }
-
-  return (
-    <div className='flex flex-col items-end gap-4'>
-      <div className='flex gap-3 w-full items-end'>
-        <div className='flex flex-col gap-3 w-full'>
-          <label htmlFor="role" className='text-sm'>Cargo(s):</label>
-          <input type="text" name="role" id="role" className='bg-gray-400 text-white h-12 outline-gray-900' value={role} onChange={(e) => setRole(e.target.value)} />
-        </div>
-        <SubmitButton handleRoleSubmission={handleRoleSubmission} />
-      </div>
-    </div>
-  )
-}
-
-function RolesRow({ roles, handleRoleDeletion }: Roles) {
-  return (
-    <div className='flex gap-3'>
-      {roles.map(role => (
-        <Role role={role} key={role} handleRoleDeletion={handleRoleDeletion} />
-      ))}
-    </div>
-  )
-}
-
-function Role({ role, handleRoleDeletion }: RoleType) {
-  return (
-    <span className='flex px-3 py-[7px] justify-center items-center gap-3 bg-white max-w-[121px]'>
-      <p className='text-xs'>{role}</p>
-      <button type='button' onClick={() => handleRoleDeletion(role)}>
-        <img src={DeleteRole} alt="delete role button" />
-      </button>
-    </span>
-  )
-}
-
-function SubmitButton({ handleRoleSubmission }: SubmissionButton) {
-  return (
-    <button className='bg-gray-600 text-white py-2 max-w-[132px] h-12 w-full' type='button' onClick={() => handleRoleSubmission()}>Adicionar</button>
   )
 }
 

@@ -1,22 +1,24 @@
+import { produce } from 'immer';
 import { Reducer } from "redux"
-import { Sector, Sectors } from "../../../typings/types"
+import { Sectors } from "../../../typings/types"
 
 const SECTORS_INITIAL_STATE: Sectors = {
   sectors: [],
-  
 }
 
-const SECTOR_INITIAL_STATE: Sector = {
-  Sector: "",
-  roles: []
-}
+export const sectors: Reducer<Sectors> = (state = SECTORS_INITIAL_STATE, action) => {
+  return produce(state, draft => {
+    switch (action.type) {
+      case "CREATE_AND_ADD_SECTOR":
+        const { sector } = action.payload
 
-const sectors: Reducer<Sectors> = () => {
-  return SECTORS_INITIAL_STATE
-}
+        draft.sectors.push(sector)
+        break;
 
-export const sector: Reducer<Sector> = () => {
-  return SECTOR_INITIAL_STATE
+      default:
+        return draft;
+    }
+  })
 }
 
 export default sectors

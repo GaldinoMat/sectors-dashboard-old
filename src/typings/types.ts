@@ -1,32 +1,16 @@
-export type SectorsForm = {
-  setSectors: (sectors: Sector[]) => void
-  sectors: Sector[]
-}
-
 export type Sectors = {
   sectors: Sector[]
 }
 
 export type Sector = {
-  Sector: string;
+  sector: string;
   roles: string[];
 }
 
-export type RoleFormType = {
-  setRoles: (roles: string[]) => void
+export type RolesType = {
   roles: string[]
 }
 
-export type SubmissionButton = {
-  handleRoleSubmission: () => void
-}
-
-export type Roles = {
-  roles: string[]
-  handleRoleDeletion: (role: string) => void
-}
-
-export type RoleType = {
-  role: string
-  handleRoleDeletion: (role: string) => void
+export type RolesObj = {
+  roles: RolesType
 }
