@@ -1,9 +1,9 @@
-export type Sectors = {
+export type SectorsObj = {
   sectors: Sector[]
 }
 
 export type Sector = {
-  sector: string;
+  sectorName: string;
   roles: string[];
 }
 

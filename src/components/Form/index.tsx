@@ -17,7 +17,7 @@ function SectorForm() {
   const handleSectorSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(createSector({
-      sector: sectorName,
+      sectorName: sectorName,
       roles
     }))
     dispatch(clearRoles())

@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import Expand from "../../../assets/Expand.svg"
 import clsx from "clsx"
-import { OpenCard } from '../typings/types'
+import { InfoCard, OpenCard, RoleType, Sector } from '../typings/types'
 
-function SectorInfo() {
+
+function SectorInfo({ sectorName, roles }: Sector) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -12,18 +13,18 @@ function SectorInfo() {
         "gap-5": isOpen,
         "gap-0": !isOpen
       })}>
-        <SectorInfoCard isOpen={isOpen} setIsOpen={setIsOpen} />
+        <SectorInfoCard isOpen={isOpen} setIsOpen={setIsOpen} roles={roles} sectorName={sectorName} />
       </div>
     </div>
   )
 }
 
-function SectorInfoCard({ isOpen, setIsOpen }: OpenCard) {
+function SectorInfoCard({ isOpen, setIsOpen, roles, sectorName }: InfoCard) {
   return (
     <>
       <div className='flex items-center justify-between'>
         <div>
-          <h3 className='text-lg'>Setor 1</h3>
+          <h3 className='text-lg'>{sectorName}</h3>
         </div>
         <ExpandButton isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
@@ -32,10 +33,9 @@ function SectorInfoCard({ isOpen, setIsOpen }: OpenCard) {
         "max-h-0 h-0": !isOpen
       })}>
         <div className='flex flex-wrap justify-center gap-3'>
-          <RoleSpan />
-          <RoleSpan />
-          <RoleSpan />
-          <RoleSpan />
+          {roles.map(role => (
+            <RoleSpan role={role} key={role}/>
+          ))}
         </div>
         <div className='flex gap-3'>
           <button className='bg-gray-300 px-3 py-2'>Editar</button>
@@ -61,9 +61,9 @@ function ExpandButton({ isOpen, setIsOpen }: OpenCard) {
   )
 }
 
-function RoleSpan() {
+function RoleSpan({ role }: RoleType) {
   return (
-    <span className='bg-gray-300 px-3 py-2'>Cargo 1</span>
+    <span className='bg-gray-300 px-3 py-2'>{role}</span>
   )
 }
 

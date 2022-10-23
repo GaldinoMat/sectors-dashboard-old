@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { deleteRole } from "../../../../store/modules/roles/actions"
-import DeleteRole from "../../assets/DeleteRole.svg"
+import DeleteRole from "../../../../assets/DeleteRole.svg"
 import { RoleType } from "./typings/types"
 
 function Role({ role }: RoleType) {

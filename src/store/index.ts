@@ -1,17 +1,11 @@
-import { legacy_createStore as createStore} from 'redux'
-import { Sector } from '../typings/types'
+import { legacy_createStore as createStore } from 'redux'
+import { RolesType, Sector, SectorsObj } from '../typings/types'
 import rootReducer from './modules/rootReducer'
 
 export interface IStateType {
-  sectors: Sector[]
-  roles: IRoles
+  sectors: SectorsObj
+  roles: RolesType
 }
-
-interface IRoles {
-  roles: string[]
-}
-
-
 const store = createStore(rootReducer)
 
 export default store
