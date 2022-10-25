@@ -6,10 +6,12 @@ import roles from './modules/roles/reducer'
 import { handleRequests } from '@redux-requests/core';
 import { createDriver } from '@redux-requests/axios'
 import axios from 'axios';
+import warnings, { Warning } from './modules/warning/reducer';
 
 export interface IStateType {
   sectors: SectorsObj
   roles: RolesType
+  warnings: Warning
 }
 
 export interface IReducers {
@@ -26,6 +28,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 const reducers = combineReducers({
   sectors,
   roles,
+  warnings,
   requests: requestsReducer,
 });
 

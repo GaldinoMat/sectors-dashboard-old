@@ -4,7 +4,8 @@ import { useDispatch } from 'react-redux'
 import { IStateType } from '../../store'
 import { clearRoles } from '../../store/modules/roles/actions'
 import { createSector, postSector } from '../../store/modules/sectors/actions'
-import type { RolesObj } from '../../typings/types'
+import { dispatchWarning } from '../../store/modules/warning/actions'
+import type { Sector } from '../../typings/types'
 import RoleForm from './components/RoleForm/RoleForm'
 import RolesRow from './components/RolesRow/RolesRow'
 
@@ -13,27 +14,38 @@ function SectorForm() {
   const [sectorName, setSectorName] = useState<string>("")
   const dispatch = useDispatch()
   const { roles } = useSelector<IStateType, IStateType>((state) => state).roles
+  const { sectors } = useSelector<IStateType, IStateType>((state) => state).sectors
 
-  const handleSectorSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const checkRepeatedValues = () => {
+    const isSectorNameFound = sectors.some((sector: Sector) => sector.sectorName.toLowerCase() === sectorName.toLowerCase())
+
+    const isRoleRepeated = sectors.some((sector: Sector) => sector.roles.some(role => roles.includes(role)))
+
+    return isSectorNameFound || isRoleRepeated
+  }
+
+  const dispatchSector = async () => {
     const sector = {
       id: Math.floor(Math.random() * 6000) + 1,
       sectorName: sectorName,
       roles
     }
+
     dispatch(createSector(sector))
     dispatch(postSector(sector))
     dispatch(clearRoles())
-    // try {
-    //   await api.post("/sectors", {
-    //     sector,
-    //     roles
-    //   })
-    // } catch (error) {
-    //   console.log(error);
-    // }
 
     setSectorName("")
+  }
+
+  const handleSectorSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (checkRepeatedValues()) {
+      dispatch(dispatchWarning(true, "Atributos já existentes na base de dados, certifique-se de inserir valores únicos"))
+    } else {
+      await dispatchSector()
+    }
   }
 
   return (

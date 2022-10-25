@@ -6,7 +6,7 @@ const SECTORS_INITIAL_STATE: SectorsObj = {
   sectors: []
 }
 
-export const sectors: Reducer<SectorsObj> = (state = SECTORS_INITIAL_STATE, action) => {
+const sectors: Reducer<SectorsObj> = (state = SECTORS_INITIAL_STATE, action) => {
   return produce(state, (draft: any) => {
     switch (action.type) {
       case "CREATE_AND_ADD_SECTOR":
@@ -20,7 +20,6 @@ export const sectors: Reducer<SectorsObj> = (state = SECTORS_INITIAL_STATE, acti
         const { sectors } = action.payload
 
         draft.sectors = sectors
-
         break;
 
       default:

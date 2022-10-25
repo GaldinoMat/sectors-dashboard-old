@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import clsx from 'clsx'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import SectorForm from './components/Form'
 import Header from './components/Header'
 import SectorsInfo from './components/SectorsInfo'
+import WarningModal from './components/WarningModal'
+import { IStateType } from './store'
 import { fetchSectors, loadSectors } from './store/modules/sectors/actions'
-import { Sector } from './typings/types'
 
 function App() {
-  const [sectors, setSectors] = useState<Sector[]>([])
-
   const dispatch = useDispatch()
+  const { isWarning } = useSelector<IStateType, IStateType>((state) => state).warnings.warning
 
   const getBooks = async () => {
     const { data } = await dispatch(fetchSectors())
@@ -21,9 +22,15 @@ function App() {
   }, [])
 
   return (
-    <div className="p-4 md:max-w-xl xl:max-w-7xl xl:max-h-screen xl:px-0 flex flex-col mx-auto gap-5">
+    <div className="p-4 md:max-w-xl xl:max-w-7xl xl:max-h-screen xl:px-0 flex flex-col mx-auto gap-5 relative">
       <Header />
-      <main className='flex flex-col xl:flex-row gap-[18px] xl:h-screen'>
+      <WarningModal />
+      <main className={clsx('flex flex-col xl:flex-row gap-[18px] xl:h-screen',
+        {
+          "pointer-events-none": isWarning,
+          "pointer-events-auto": !isWarning
+        },
+      )}>
         <SectorsInfo />
         <SectorForm />
       </main>
