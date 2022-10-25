@@ -16,6 +16,13 @@ export const sectors: Reducer<SectorsObj> = (state = SECTORS_INITIAL_STATE, acti
         draft.sectors.push(sector)
         break;
 
+      case "LOAD_SECTORS":
+        const { sectors } = action.payload
+
+        draft.sectors = sectors
+
+        break;
+
       default:
         return draft;
     }

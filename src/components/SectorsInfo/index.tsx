@@ -13,8 +13,8 @@ function SectorsInfo() {
         </h2>
       </div>
       <div className='xl:overflow-auto flex flex-col gap-[14px]'>
-        {sectors.map(sector => (
-          <SectorInfo roles={sector.roles} sectorName={sector.sectorName} key={sector.sectorName}/>
+        {sectors && sectors.map(sector => (
+          <SectorInfo roles={sector.roles} sectorName={sector.sectorName} key={sector.id} />
         ))}
       </div>
     </section>

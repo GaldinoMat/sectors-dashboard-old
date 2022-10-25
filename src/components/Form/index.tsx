@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { IStateType } from '../../store'
 import { clearRoles } from '../../store/modules/roles/actions'
-import { createSector } from '../../store/modules/sectors/actions'
+import { createSector, postSector } from '../../store/modules/sectors/actions'
 import type { RolesObj } from '../../typings/types'
 import RoleForm from './components/RoleForm/RoleForm'
 import RolesRow from './components/RolesRow/RolesRow'
@@ -12,16 +12,18 @@ import RolesRow from './components/RolesRow/RolesRow'
 function SectorForm() {
   const [sectorName, setSectorName] = useState<string>("")
   const dispatch = useDispatch()
-  const { roles } = useSelector<IStateType, RolesObj>((state) => state).roles
+  const { roles } = useSelector<IStateType, IStateType>((state) => state).roles
 
   const handleSectorSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(createSector({
+    const sector = {
+      id: Math.floor(Math.random() * 6000) + 1,
       sectorName: sectorName,
       roles
-    }))
+    }
+    dispatch(createSector(sector))
+    dispatch(postSector(sector))
     dispatch(clearRoles())
-
     // try {
     //   await api.post("/sectors", {
     //     sector,
