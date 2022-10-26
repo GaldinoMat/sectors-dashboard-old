@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { IStateType } from '../../store'
+import type { IStateType } from '../../store'
 import SectorInfo from './components/SectorInto/SectorInfo'
 
 function SectorsInfo() {

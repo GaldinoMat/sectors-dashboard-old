@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { deleteSector, fetchSectors, loadSectors } from '../../../../store/modules/sectors/actions'
-import { DeleteId } from '../SectorInto/typings/types'
+import type { DeleteId } from './typings/types'
 
 function DeleteButton({ id }: DeleteId) {
   const dispatch = useDispatch()
