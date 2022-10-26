@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { IStateType } from '../../store'
-import SectorInfo from './components/SectorInfo'
+import SectorInfo from './components/SectorInto/SectorInfo'
 
 function SectorsInfo() {
   const { sectors } = useSelector<IStateType, IStateType>((state) => state).sectors

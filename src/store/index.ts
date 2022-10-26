@@ -1,4 +1,4 @@
-import { combineReducers, applyMiddleware, Reducer, AnyAction } from 'redux';
+import { combineReducers, applyMiddleware } from 'redux';
 import { legacy_createStore as createStore } from 'redux'
 import { RolesType, SectorsObj } from '../typings/types'
 import sectors from './modules/sectors/reducer'
@@ -12,11 +12,6 @@ export interface IStateType {
   sectors: SectorsObj
   roles: RolesType
   warnings: Warning
-}
-
-export interface IReducers {
-  rootReducer: typeof combineReducers<IStateType, AnyAction >,
-  requests: Reducer<any, AnyAction>
 }
 
 const { requestsReducer, requestsMiddleware } = handleRequests({

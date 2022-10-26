@@ -1,4 +1,3 @@
-import { produce } from 'immer';
 import { Reducer } from "redux"
 import { SectorsObj } from '../../../typings/types';
 
@@ -7,25 +6,30 @@ const SECTORS_INITIAL_STATE: SectorsObj = {
 }
 
 const sectors: Reducer<SectorsObj> = (state = SECTORS_INITIAL_STATE, action) => {
-  return produce(state, (draft: any) => {
-    switch (action.type) {
-      case "CREATE_AND_ADD_SECTOR":
-        const { sector } = action.payload
+  switch (action.type) {
+    case "CREATE_AND_ADD_SECTOR":
+      const { sector } = action.payload
 
+      return {
+        ...state,
+        sectors: [
+          ...state.sectors,
+          sector
+        ]
+      }
 
-        draft.sectors.push(sector)
-        break;
+    case "LOAD_SECTORS":
+      const { sectors } = action.payload
 
-      case "LOAD_SECTORS":
-        const { sectors } = action.payload
+      return {
+        ...state,
+        sectors
+      }
 
-        draft.sectors = sectors
-        break;
+    default:
+      return state;
+  }
 
-      default:
-        return draft;
-    }
-  })
 }
 
 export default sectors

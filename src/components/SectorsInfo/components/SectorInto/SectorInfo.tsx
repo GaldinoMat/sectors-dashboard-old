@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import Expand from "../../../assets/Expand.svg"
+import Expand from "../../../../assets/Expand.svg"
 import clsx from "clsx"
-import { InfoCard, OpenCard, RoleType, Sector } from '../typings/types'
+import { InfoCard, OpenCard, RoleType } from '../../typings/types'
 import { useDispatch } from 'react-redux'
-import { deleteSector, fetchSectors, loadSectors } from '../../../store/modules/sectors/actions'
+import { deleteSector, fetchSectors, loadSectors } from '../../../../store/modules/sectors/actions'
+import { DeleteId } from './typings/types'
+import { Sector } from '../../../../typings/types'
 
 
 function SectorInfo(sector: Sector) {
@@ -67,10 +69,6 @@ function RoleSpan({ role }: RoleType) {
   return (
     <span className='bg-gray-300 px-3 py-2'>{role}</span>
   )
-}
-
-type DeleteId = {
-  id: number
 }
 
 function DeleteButton({ id }: DeleteId) {

@@ -1,8 +1,4 @@
-export type Sector = {
-  id: number
-  sectorName: string;
-  roles: string[]
-}
+import { Sector } from "../../../typings/types";
 
 export type InfoCard = Sector & OpenCard
 

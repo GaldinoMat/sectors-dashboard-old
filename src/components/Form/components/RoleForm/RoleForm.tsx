@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addRole } from '../../../../store/modules/roles/actions'
-import { SubmissionButton } from './types/typings'
+import { SubmissionButton } from './typings/types'
 
 function RoleForm() {
   const dispatch = useDispatch()

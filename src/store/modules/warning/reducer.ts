@@ -1,4 +1,3 @@
-import produce from "immer"
 import { Reducer } from "redux"
 
 export type Warning = {
@@ -16,23 +15,23 @@ const WARNINGS_INITIAL_STATE: Warning = {
 }
 
 const warnings: Reducer<Warning> = (state = WARNINGS_INITIAL_STATE, action) => {
-  return produce(state, (draft: any) => {
-    switch (action.type) {
-      case "DISPATCH_WARNING_AND_TEXT":
-        const { isWarning, text
-        } = action.payload;
+  switch (action.type) {
+    case "DISPATCH_WARNING_AND_TEXT":
+      const { isWarning, text
+      } = action.payload;
 
-        draft.warning = {
+      return {
+        ...state,
+        warning: {
           isWarning,
           text
         }
+      }
 
-        break;
 
-      default:
-        break;
-    }
-  })
+    default:
+      return state
+  }
 }
 
 export default warnings
