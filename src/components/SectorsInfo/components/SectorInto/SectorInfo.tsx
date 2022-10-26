@@ -2,10 +2,11 @@ import { useState } from 'react'
 import Expand from "../../../../assets/Expand.svg"
 import clsx from "clsx"
 import { InfoCard, OpenCard, RoleType } from '../../typings/types'
-import { useDispatch } from 'react-redux'
-import { deleteSector, fetchSectors, loadSectors } from '../../../../store/modules/sectors/actions'
-import { DeleteId } from './typings/types'
 import { Sector } from '../../../../typings/types'
+import DeleteButton from '../DeleteButton'
+import { useDispatch } from 'react-redux'
+import { addSectorToEdit } from '../../../../store/modules/editSector/actions'
+import { loadRoles } from '../../../../store/modules/editRoles/actions'
 
 
 function SectorInfo(sector: Sector) {
@@ -23,7 +24,16 @@ function SectorInfo(sector: Sector) {
   )
 }
 
-function SectorInfoCard({ isOpen, setIsOpen, id, roles, sectorName }: InfoCard) {
+function SectorInfoCard({ isOpen, setIsOpen, ...sector }: InfoCard) {
+  const dispatch = useDispatch()
+  const { id, roles, sectorName } = sector
+
+
+  const handleEditRequest = () => {
+    dispatch(addSectorToEdit(sector))
+    dispatch(loadRoles(roles))
+  }
+
   return (
     <>
       <div className='flex items-center justify-between'>
@@ -42,7 +52,7 @@ function SectorInfoCard({ isOpen, setIsOpen, id, roles, sectorName }: InfoCard) 
           ))}
         </div>
         <div className='flex gap-3'>
-          <button className='bg-gray-300 px-3 py-2'>Editar</button>
+          <button onClick={() => handleEditRequest()} className='bg-gray-300 px-3 py-2'>Editar</button>
           <DeleteButton id={id} />
         </div>
       </div>
@@ -71,17 +81,5 @@ function RoleSpan({ role }: RoleType) {
   )
 }
 
-function DeleteButton({ id }: DeleteId) {
-  const dispatch = useDispatch()
-
-  const handleDeletePost = async () => {
-    await dispatch(deleteSector(id))
-    const { data } = await dispatch(fetchSectors())
-    dispatch(loadSectors(data))
-  }
-  return (
-    <button onClick={() => handleDeletePost()} className='bg-gray-300 px-3 py-2'>Excluir</button>
-  )
-}
 
 export default SectorInfo

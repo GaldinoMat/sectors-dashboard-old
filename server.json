@@ -1,3 +1,19 @@
 {
-  "sectors": []
+  "sectors": [
+    {
+      "id": 4220,
+      "sectorName": "Agricultura 2",
+      "roles": [
+        "Diretor",
+        "Ajudante"
+      ]
+    },
+    {
+      "id": 60,
+      "sectorName": "TI",
+      "roles": [
+        "diretor"
+      ]
+    }
+  ]
 }

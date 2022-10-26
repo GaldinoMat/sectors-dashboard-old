@@ -35,16 +35,16 @@ function SectorForm() {
     dispatch(postSector(sector))
     dispatch(clearRoles())
 
-    setSectorName("")
   }
-
+  
   const handleSectorSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
+    
     if (checkRepeatedValues()) {
       dispatch(dispatchWarning(true, "Atributos já existentes na base de dados, certifique-se de inserir valores únicos"))
     } else {
       await dispatchSector()
+      setSectorName("")
     }
   }
 

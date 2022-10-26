@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import SectorEditForm from './components/Edit Form'
 import SectorForm from './components/Form'
 import Header from './components/Header'
 import SectorsInfo from './components/SectorsInfo'
@@ -11,6 +12,7 @@ import { fetchSectors, loadSectors } from './store/modules/sectors/actions'
 function App() {
   const dispatch = useDispatch()
   const { isWarning } = useSelector<IStateType, IStateType>((state) => state).warnings.warning
+  const { id } = useSelector<IStateType, IStateType>((state) => state).sector
 
   const getSectors = async () => {
     const { data } = await dispatch(fetchSectors())
@@ -32,7 +34,14 @@ function App() {
         },
       )}>
         <SectorsInfo />
-        <SectorForm />
+        {id === 0 ?
+          (
+            <SectorForm />
+          ) :
+          (
+            <SectorEditForm />
+          )
+        }
       </main>
     </div>
   )

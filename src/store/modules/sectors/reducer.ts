@@ -26,6 +26,20 @@ const sectors: Reducer<SectorsObj> = (state = SECTORS_INITIAL_STATE, action) => 
         sectors
       }
 
+    case "ADD_EDITED_SECTOR":
+      const { sector: editedSector } = action.payload
+
+
+      const editedSectors = state.sectors.map(sector => sector.id === editedSector.id ? editedSector : sector)
+
+      console.log(editedSectors);
+
+
+      return {
+        ...state,
+        sectors: editedSectors
+      }
+
     default:
       return state;
   }

@@ -12,6 +12,10 @@ export type RolesType = {
   roles: string[]
 }
 
+export type EditRolesType = {
+  editRoles: string[]
+}
+
 export type RolesObj = {
   roles: RolesType
 }

@@ -1,18 +1,11 @@
 import { Reducer } from "redux"
+import { RolesType } from "../../../typings/types";
 
-interface Role {
-  role: string
-}
-
-interface IRoles {
-  roles: Role[]
-}
-
-const ROLES_INITIAL_STATE: IRoles = {
+const ROLES_INITIAL_STATE: RolesType = {
   roles: []
 }
 
-const roles: Reducer<IRoles> = (state = ROLES_INITIAL_STATE, action) => {
+const roles: Reducer<RolesType> = (state = ROLES_INITIAL_STATE, action) => {
   switch (action.type) {
     case "ADD_ROLE_TO_ROLES":
       const { role: addedRole } = action.payload;

@@ -9,6 +9,15 @@ export function createSector(sector: Sector) {
   }
 }
 
+export function addEditedSector(sector: Sector) {
+  return {
+    type: "ADD_EDITED_SECTOR",
+    payload: {
+      sector
+    }
+  }
+}
+
 export function postSector(sector: Sector) {
   return {
     type: "CREATE_AND_POST_SECTOR",
