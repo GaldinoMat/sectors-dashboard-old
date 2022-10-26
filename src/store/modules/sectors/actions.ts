@@ -20,6 +20,19 @@ export function postSector(sector: Sector) {
   }
 }
 
+export function deleteSector(id: number) {
+  return {
+    type: "DELETE_SECTOR",
+    request: {
+      url: `sectors/${id}`,
+      method: 'delete',
+      data: {
+        id
+      }
+    }
+  }
+}
+
 export function loadSectors(sectors: Sector[]) {
   return {
     type: "LOAD_SECTORS",

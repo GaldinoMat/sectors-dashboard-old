@@ -1,4 +1,5 @@
 export type Sector = {
+  id: number
   sectorName: string;
   roles: string[]
 }

@@ -12,13 +12,13 @@ function App() {
   const dispatch = useDispatch()
   const { isWarning } = useSelector<IStateType, IStateType>((state) => state).warnings.warning
 
-  const getBooks = async () => {
+  const getSectors = async () => {
     const { data } = await dispatch(fetchSectors())
     dispatch(loadSectors(data))
   }
 
   useEffect(() => {
-    getBooks()
+    getSectors()
   }, [])
 
   return (

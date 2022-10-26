@@ -1,4 +1,3 @@
-import React from 'react'
 import Sector from "../../assets/Sector.svg"
 function Header() {
   return (

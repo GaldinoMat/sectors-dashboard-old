@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Expand from "../../../assets/Expand.svg"
 import clsx from "clsx"
 import { InfoCard, OpenCard, RoleType, Sector } from '../typings/types'
+import { useDispatch } from 'react-redux'
+import { deleteSector, fetchSectors, loadSectors } from '../../../store/modules/sectors/actions'
 
 
-function SectorInfo({ sectorName, roles }: Sector) {
+function SectorInfo(sector: Sector) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -13,13 +15,13 @@ function SectorInfo({ sectorName, roles }: Sector) {
         "gap-5": isOpen,
         "gap-0": !isOpen
       })}>
-        <SectorInfoCard isOpen={isOpen} setIsOpen={setIsOpen} roles={roles} sectorName={sectorName} />
+        <SectorInfoCard isOpen={isOpen} setIsOpen={setIsOpen} roles={sector.roles} sectorName={sector.sectorName} id={sector.id} />
       </div>
     </div>
   )
 }
 
-function SectorInfoCard({ isOpen, setIsOpen, roles, sectorName }: InfoCard) {
+function SectorInfoCard({ isOpen, setIsOpen, id, roles, sectorName }: InfoCard) {
   return (
     <>
       <div className='flex items-center justify-between'>
@@ -34,12 +36,12 @@ function SectorInfoCard({ isOpen, setIsOpen, roles, sectorName }: InfoCard) {
       })}>
         <div className='flex flex-wrap justify-center gap-3'>
           {roles.map(role => (
-            <RoleSpan role={role} key={role}/>
+            <RoleSpan role={role} key={role} />
           ))}
         </div>
         <div className='flex gap-3'>
           <button className='bg-gray-300 px-3 py-2'>Editar</button>
-          <button className='bg-gray-300 px-3 py-2'>Excluir</button>
+          <DeleteButton id={id} />
         </div>
       </div>
     </>
@@ -64,6 +66,23 @@ function ExpandButton({ isOpen, setIsOpen }: OpenCard) {
 function RoleSpan({ role }: RoleType) {
   return (
     <span className='bg-gray-300 px-3 py-2'>{role}</span>
+  )
+}
+
+type DeleteId = {
+  id: number
+}
+
+function DeleteButton({ id }: DeleteId) {
+  const dispatch = useDispatch()
+
+  const handleDeletePost = async () => {
+    await dispatch(deleteSector(id))
+    const { data } = await dispatch(fetchSectors())
+    dispatch(loadSectors(data))
+  }
+  return (
+    <button onClick={() => handleDeletePost()} className='bg-gray-300 px-3 py-2'>Excluir</button>
   )
 }
 

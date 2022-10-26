@@ -14,7 +14,7 @@ function SectorsInfo() {
       </div>
       <div className='xl:overflow-auto flex flex-col gap-[14px]'>
         {sectors && sectors.map(sector => (
-          <SectorInfo roles={sector.roles} sectorName={sector.sectorName} key={sector.id} />
+          <SectorInfo roles={sector.roles} sectorName={sector.sectorName} key={sector.id} id={sector.id} />
         ))}
       </div>
     </section>
